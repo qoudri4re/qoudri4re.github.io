@@ -1,0 +1,75 @@
+:root {
+  /* ── Backgrounds ──────────────────────────────── */
+  --bg-base:        #0b0b0e;
+  --bg-surface:     #111116;
+  --bg-elevated:    #18181f;
+  --bg-hover:       #1d1d26;
+  --bg-accent-dim:  rgba(0, 212, 255, 0.07);
+
+  /* ── Borders ──────────────────────────────────── */
+  --border:         rgba(255, 255, 255, 0.07);
+  --border-em:      rgba(255, 255, 255, 0.13);
+  --border-accent:  rgba(0, 212, 255, 0.28);
+  --border-focus:   rgba(0, 212, 255, 0.5);
+
+  /* ── Text ─────────────────────────────────────── */
+  --text-primary:   #ecedf2;
+  --text-secondary: #9494a6;
+  --text-muted:     #52526a;
+
+  /* ── Accent ───────────────────────────────────── */
+  --accent:         #00d4ff;
+  --accent-hover:   #33dcff;
+  --accent-dim:     rgba(0, 212, 255, 0.08);
+
+  /* ── Semantic ─────────────────────────────────── */
+  --success:        #22d39e;
+  --warning:        #f59e0b;
+  --danger:         #f87171;
+
+  /* ── Fonts ────────────────────────────────────── */
+  --font-display: 'Poppins', system-ui, sans-serif;
+  --font-body:    'Poppins', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* ── Type scale (major-third × 1.25) ─────────── */
+  --text-xs:   0.64rem;
+  --text-sm:   0.8rem;
+  --text-base: 1rem;
+  --text-lg:   1.25rem;
+  --text-xl:   1.563rem;
+  --text-2xl:  1.953rem;
+  --text-3xl:  2.441rem;
+  --text-4xl:  3.052rem;
+  --text-5xl:  3.815rem;
+
+  /* ── Spacing (4px base) ───────────────────────── */
+  --s-1:  0.25rem;
+  --s-2:  0.5rem;
+  --s-3:  0.75rem;
+  --s-4:  1rem;
+  --s-5:  1.25rem;
+  --s-6:  1.5rem;
+  --s-8:  2rem;
+  --s-10: 2.5rem;
+  --s-12: 3rem;
+  --s-16: 4rem;
+  --s-20: 5rem;
+  --s-24: 6rem;
+  --s-32: 8rem;
+
+  /* ── Radii ────────────────────────────────────── */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  /* ── Motion ───────────────────────────────────── */
+  --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast:    140ms ease;
+  --t-normal:  220ms ease;
+
+  /* ── Layout ───────────────────────────────────── */
+  --max-w:      1160px;
+  --content-w:  700px;
+  --nav-h:      60px;
+}

@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            Database per tenant for a multi tenancy system — Abdulqodir
+            Oladimeji
+        </title>
+        <meta
+            name="description"
+            content="Why I rejected row-level and schema-level multi-tenancy, and how I used AsyncLocalStorage plus tenant-aware connection management to make database-per-tenant work safely."
+        />
+
+        <!-- ── SEO ──────────────────────────────────────── -->
+        <link
+            rel="canonical"
+            href="https://qoudri4re.github.io/blog/multitenancy-strategy.html"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Abdulqodir Oladimeji" />
+
+        <!-- Open Graph (article) -->
+        <meta property="og:type" content="article" />
+        <meta
+            property="og:url"
+            content="https://qoudri4re.github.io/blog/multitenancy-strategy.html"
+        />
+        <meta
+            property="og:title"
+            content="Database per tenant for a multi tenancy system"
+        />
+        <meta
+            property="og:description"
+            content="Why I rejected row-level and schema-level multi-tenancy, and how I used AsyncLocalStorage plus tenant-aware connection management to make database-per-tenant work safely."
+        />
+        <meta
+            property="og:image"
+            content="https://picsum.photos/seed/multitenancy/1200/630"
+        />
+        <meta property="og:locale" content="en_NG" />
+        <meta property="article:author" content="Abdulqodir Oladimeji" />
+        <meta property="article:published_time" content="2026-05-21" />
+        <meta property="article:tag" content="Architecture" />
+        <meta property="article:tag" content="Backend" />
+        <meta property="article:tag" content="Database" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+            name="twitter:title"
+            content="Database per tenant for a multi tenancy system"
+        />
+        <meta
+            name="twitter:description"
+            content="Why I rejected row-level and schema-level multi-tenancy, and how I used AsyncLocalStorage plus tenant-aware connection management to make database-per-tenant work safely."
+        />
+        <meta
+            name="twitter:image"
+            content="https://picsum.photos/seed/multitenancy/1200/630"
+        />
+
+        <!-- JSON-LD -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": "Database per tenant for a multi tenancy system",
+                "description": "Why I rejected row-level and schema-level multi-tenancy, and how I used AsyncLocalStorage plus tenant-aware connection management to make database-per-tenant work safely.",
+                "image": "https://picsum.photos/seed/multitenancy/1200/630",
+                "datePublished": "2026-05-21",
+                "author": {
+                    "@type": "Person",
+                    "name": "Abdulqodir Oladimeji",
+                    "url": "https://qoudri4re.github.io/"
+                },
+                "publisher": {
+                    "@type": "Person",
+                    "name": "Abdulqodir Oladimeji",
+                    "url": "https://qoudri4re.github.io/"
+                },
+                "url": "https://qoudri4re.github.io/blog/multitenancy-strategy.html"
+            }
+        </script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="../css/tokens.css" />
+        <link rel="stylesheet" href="../css/base.css" />
+        <link rel="stylesheet" href="../css/components.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+        />
+    </head>
+    <body>
+        <header class="site-nav" role="banner">
+            <div class="container nav__inner">
+                <a href="../" class="nav__logo">Abdulqodir Oladimeji</a>
+                <nav aria-label="Primary navigation">
+                    <ul class="nav__links">
+                        <li>
+                            <a href="../projects/" class="nav__link"
+                                >Projects</a
+                            >
+                        </li>
+                        <li>
+                            <a href="../blog/" class="nav__link">Writing</a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://github.com/qoudri4re"
+                                class="nav__link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >GitHub</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="mailto:abdulqodrioladimeji@gmail.com"
+                                class="nav__link nav__link--cta"
+                                >Get in touch</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+                <button
+                    class="nav__toggle"
+                    aria-label="Toggle navigation"
+                    aria-expanded="false"
+                >
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </header>
+
+        <main class="article-layout">
+            <div class="container">
+                <a href="../blog/" class="article__back">← Back to Writing</a>
+
+                <article>
+                    <header class="article__header">
+                        <div class="article__tags tags">
+                            <span class="tag tag--accent">Architecture</span>
+                            <span class="tag">Backend</span>
+                            <span class="tag">Database</span>
+                        </div>
+                        <h1 class="article__title">
+                            Database per tenant for a multi tenancy system
+                        </h1>
+                        <div class="article__meta">
+                            <time datetime="2026-05-21">May 21, 2026</time>
+                            <span class="article__meta-sep">·</span>
+                        </div>
+                    </header>
+
+                    <div class="prose">
+                        <p>
+                            I am currently working on a multi-tenant project
+                            where I had to choose the right tenancy database
+                            pattern. Row-level tenant separation was one of the
+                            obvious options, but it was not a good fit because
+                            the system could end up handling a very large amount
+                            of records, and that growth would not be evenly
+                            distributed across tenants.
+                        </p>
+
+                        <p>
+                            That approach is popular because it is easy to start
+                            with:
+                        </p>
+
+                        <ul>
+                            <li>one database</li>
+                            <li>one schema</li>
+                            <li>one set of tables</li>
+                            <li>every row carries a <code>tenant_id</code></li>
+                        </ul>
+
+                        <p>
+                            It is convenient, but the tradeoffs won't work for
+                            the project's requirements.
+                        </p>
+
+                        <h2>Limits Of Row-Level Separation</h2>
+
+                        <p>
+                            The biggest problem is the noisy neighbour effect.
+                        </p>
+
+                        <p>
+                            If every tenant shares the same database tables, one
+                            large tenant can affect everyone else:
+                        </p>
+
+                        <ul>
+                            <li>
+                                heavy queries from one tenant can slow down
+                                others
+                            </li>
+                            <li>
+                                index growth and table bloat affect the whole
+                                system
+                            </li>
+                            <li>maintenance tasks hit all tenants together</li>
+                            <li>
+                                one bad query pattern becomes everybody's
+                                problem
+                            </li>
+                        </ul>
+
+                        <p>
+                            There is also the constant risk of tenant-filter
+                            mistakes.
+                        </p>
+
+                        <p>
+                            With row-level separation, every query depends on
+                            getting this right:
+                        </p>
+
+                        <pre><code class="language-sql">WHERE tenant_id = ?</code></pre>
+
+                        <p>
+                            Miss that filter once, or apply it incorrectly in
+                            one edge case, and you have a data leak.
+                        </p>
+
+                        <h2>Limits Of Schema-Level Separation</h2>
+
+                        <p>The next obvious option is schema-per-tenant.</p>
+
+                        <p>
+                            That solves some of the row-level leakage problems
+                            because each tenant gets its own schema inside the
+                            same database.
+                        </p>
+
+                        <p>
+                            However, Schema-level multi-tenancy comes with its
+                            own downsides:
+                        </p>
+
+                        <ul>
+                            <li>
+                                all tenants still compete for the same database
+                                server resources
+                            </li>
+                            <li>
+                                a noisy neighbour can still hurt performance
+                            </li>
+                            <li>
+                                migrations become more annoying because you need
+                                to apply them across many schemas
+                            </li>
+                            <li>
+                                connection and search path management gets more
+                                complex
+                            </li>
+                            <li>
+                                tenants are still not as isolated as they would
+                                be with fully separate databases
+                            </li>
+                        </ul>
+
+                        <p>
+                            It is definitely better isolation than row-level
+                            separation, but it still keeps everyone living in
+                            the same house.
+                        </p>
+
+                        <h2>Database-Per-Tenant</h2>
+
+                        <p>So I chose a different model:</p>
+
+                        <ul>
+                            <li>
+                                one registry database for shared platform-level
+                                records
+                            </li>
+                            <li>
+                                one PostgreSQL database per tenant for
+                                tenant-owned data
+                            </li>
+                        </ul>
+
+                        <p>That gives much better isolation:</p>
+
+                        <ul>
+                            <li>
+                                one tenant's data is physically separated from
+                                another's
+                            </li>
+                            <li>backup and restore can happen per tenant</li>
+                            <li>failures have a smaller blast radius</li>
+                            <li>
+                                the risk of accidental cross-tenant queries
+                                drops dramatically
+                            </li>
+                        </ul>
+
+                        <p>But this approach is not free either.</p>
+
+                        <p>The main disadvantages are:</p>
+
+                        <ul>
+                            <li>more connection management</li>
+                            <li>
+                                connection pools can grow aggressively as tenant
+                                count grows
+                            </li>
+                            <li>more operational complexity</li>
+                            <li>
+                                tenant-aware routing becomes an application
+                                concern
+                            </li>
+                            <li>
+                                migrations and setup have to run across many
+                                databases
+                            </li>
+                            <li>
+                                the ORM can no longer assume there is one global
+                                database connection
+                            </li>
+                        </ul>
+
+                        <p>That connection-pool issue is a big one.</p>
+
+                        <p>
+                            With database-per-tenant, every active tenant may
+                            need its own Sequelize instance, and every Sequelize
+                            instance has its own connection pool. That means the
+                            scaling problem is not only "more tenants means more
+                            data". It is also "more tenants means more pools".
+                        </p>
+
+                        <p>
+                            At 20 tenants, that is manageable. At 500 tenants,
+                            it becomes something you have to design around very
+                            deliberately.
+                        </p>
+
+                        <p>
+                            Even if each tenant only keeps a small pool, the
+                            total number of open or recently-opened connections
+                            can become expensive.
+                        </p>
+
+                        <p>
+                            As a rough assumption, if each tenant-scoped
+                            connection setup ends up consuming even a modest
+                            amount of memory and connection overhead, the cost
+                            adds up faster. At that point, tenant growth is not
+                            just about more rows in, it is also about more
+                            connection objects, more pool bookkeeping, and more
+                            pressure on both the Node process and Postgres.
+                        </p>
+
+                        <p>In practice, that means:</p>
+
+                        <ul>
+                            <li>more memory usage in the app process</li>
+                            <li>more open database connections to manage</li>
+                            <li>
+                                more idle connections hanging around unless you
+                                clean them up
+                            </li>
+                            <li>
+                                more pressure on the database server if many
+                                tenants become active around the same time
+                            </li>
+                        </ul>
+
+                        <p>
+                            That is one of the biggest drawbacks of this
+                            approach, and it is exactly why a connection manager
+                            with caching and idle cleanup is not optional here.
+                        </p>
+
+                        <p>
+                            It is also why I plan to put PgBouncer in front of
+                            Postgres.
+                        </p>
+
+                        <p>
+                            PgBouncer helps absorb some of the connection
+                            turnover and reduces how expensive it is for many
+                            tenant-specific pools to talk to Postgres directly.
+                            It helps manage the problem, but it does not
+                            eliminate the architectural reason the problem
+                            exists. The app can still end up with many
+                            tenant-scoped Sequelize instances and pools living
+                            in memory.
+                        </p>
+
+                        <p>
+                            Realistically, I do not expect this project to hit
+                            some wild tenant count. It may never even reach 100
+                            active tenants. And even if it eventually grows far
+                            beyond that, this is the kind of problem that can
+                            usually be solved with infrastructure and scaling.
+                        </p>
+
+                        <p>
+                            More specifically, the need for tenant-aware
+                            connection handling and request-time database
+                            routing is what shaped the rest of the
+                            implementation.
+                        </p>
+
+                        <p>
+                            Once each tenant has its own database, the question
+                            becomes:
+                        </p>
+
+                        <p>
+                            <strong
+                                >How do you make sure every incoming request
+                                uses the correct tenant database, every
+                                time?</strong
+                            >
+                        </p>
+
+                        <h2>
+                            The Problem With Sequelize in this Multi-Tenant
+                            Setup
+                        </h2>
+
+                        <p>
+                            The issue comes from how model classes hold on to
+                            their Sequelize instance.
+                        </p>
+
+                        <p>
+                            Normally, a model like <code>TenantAdmin</code> has
+                            a static <code>.sequelize</code> property pointing
+                            to the connection it was initialized with. That
+                            works fine in a single-tenant app.
+                        </p>
+
+                        <p>
+                            It breaks the moment multiple tenant connections
+                            exist.
+                        </p>
+
+                        <p>Imagine this:</p>
+
+                        <pre><code>Tenant A connection starts
+TenantAdmin.sequelize -&gt; tenantA
+
+Tenant B connection starts later
+TenantAdmin.sequelize -&gt; tenantB</code></pre>
+
+                        <p>
+                            Now every part of the app using
+                            <code>TenantAdmin</code> is pointing at Tenant B.
+                        </p>
+
+                        <p>
+                            This would cause wrong data, or empty results, or
+                            subtle cross-tenant corruption.
+                        </p>
+
+                        <h2>The Fix: AsyncLocalStorage</h2>
+
+                        <p>
+                            The approach I used in this project is built around
+                            <a
+                                href="https://nodejs.org/api/async_context.html"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                ><code>AsyncLocalStorage</code></a
+                            >.
+                        </p>
+
+                        <p>
+                            <code>AsyncLocalStorage</code> is a Node.js feature
+                            for storing request-specific data across an async
+                            call chain.
+                        </p>
+
+                        <p>
+                            The easiest way to think about it is this: once a
+                            value is attached to a request's execution flow, any
+                            function running inside that same flow can read it
+                            later, even after several <code>await</code>s.
+                        </p>
+
+                        <p>
+                            That is exactly what this multi-tenant problem
+                            needs.
+                        </p>
+
+                        <p>The system has to remember:</p>
+
+                        <ul>
+                            <li>which tenant this request belongs to</li>
+                            <li>
+                                which tenant database connection should be used
+                            </li>
+                        </ul>
+
+                        <p>
+                            and it has to remember that not just in one
+                            controller function, but across all the nested async
+                            work that happens underneath it.
+                        </p>
+
+                        <p>The idea is:</p>
+
+                        <ul>
+                            <li>
+                                incoming requests that require database access
+                                get bound to the correct tenant database
+                            </li>
+                            <li>
+                                every async call inside that request inherits
+                                that database context
+                            </li>
+                            <li>
+                                every model reads from the current async context
+                                instead of a stale static pointer
+                            </li>
+                        </ul>
+
+                        <p>So instead of:</p>
+
+                        <pre><code class="language-typescript">TenantAdmin.sequelize;</code></pre>
+
+                        <p>
+                            as a long-lived global value, it resolves
+                            dynamically from the active request context.
+                        </p>
+
+                        <h2>The Three Pieces That Make It Work</h2>
+
+                        <h3>1. Patch the model classes once at startup</h3>
+
+                        <p>
+                            The patch is a runtime change to an existing
+                            property on each model class.
+                        </p>
+
+                        <p>
+                            In JavaScript,
+                            <code>Object.defineProperty(...)</code> lets you
+                            redefine how a property behaves. The code takes the
+                            static <code>.sequelize</code> property on every
+                            tenant-scoped model and replaces it.
+                        </p>
+
+                        <p>
+                            Before the patch, <code>.sequelize</code> behaves
+                            like a normal stored value:
+                        </p>
+
+                        <pre><code class="language-typescript">TenantAdmin.sequelize = someDatabaseConnection;</code></pre>
+
+                        <p>
+                            After the patch, <code>.sequelize</code> is no
+                            longer treated as a simple value sitting on the
+                            model class. It becomes a computed property.
+                        </p>
+
+                        <p>This is achieved by bringing in the getter.</p>
+
+                        <p>
+                            A getter is a function that runs automatically when
+                            a property is read. So when code does this:
+                        </p>
+
+                        <pre><code class="language-typescript">TenantAdmin.sequelize;</code></pre>
+
+                        <p>
+                            JavaScript does not just return a previously stored
+                            value. It calls the getter function and uses
+                            whatever that function returns.
+                        </p>
+
+                        <p>
+                            In this case, the getter asks
+                            <code>AsyncLocalStorage</code> for the database
+                            bound to the current request:
+                        </p>
+
+                        <pre><code class="language-typescript">const db = storage.getStore();</code></pre>
+
+                        <p>So the flow is:</p>
+
+                        <ol>
+                            <li>
+                                some ORM operation tries to read
+                                <code>Model.sequelize</code>
+                            </li>
+                            <li>the getter runs</li>
+                            <li>
+                                the getter asks
+                                <code>AsyncLocalStorage</code> for the active
+                                tenant DB
+                            </li>
+                            <li>that tenant DB is returned</li>
+                        </ol>
+
+                        <p>
+                            If there is no active DB context, it throws
+                            immediately.
+                        </p>
+
+                        <p>The patched version looks like this:</p>
+
+                        <pre><code class="language-typescript">Object.defineProperty(ModelClass, "sequelize", {
+  get() {
+    const db = storage.getStore();
+    if (!db) {
+      throw new Error(
+        `${ModelClass.name}.sequelize accessed outside a runWithDb context`,
+      );
+    }
+    return db;
+  },
+  set(_value) {
+    // no-op
+  },
+});</code></pre>
+
+                        <p>
+                            The small but important detail is the
+                            <code>set(_value)</code> part.
+                        </p>
+
+                        <p>
+                            Normally, Sequelize may try to assign to
+                            <code>.sequelize</code> again when models are
+                            initialized on another connection. In a
+                            database-per-tenant system, that would reintroduce
+                            the same problem I was trying to avoid.
+                        </p>
+
+                        <p>
+                            So the setter is turned into a no-op. In plain
+                            terms, writes to
+                            <code>.sequelize</code> stop mattering, while reads
+                            to <code>.sequelize</code> always go through the
+                            getter.
+                        </p>
+
+                        <p>So the patch:</p>
+
+                        <ul>
+                            <li>stop trusting a shared stored value</li>
+                            <li>replace it with a computed lookup</li>
+                            <li>
+                                make every model resolve its database from the
+                                active request context
+                            </li>
+                        </ul>
+
+                        <h3>2. Use a connection manager</h3>
+
+                        <p>
+                            Once each tenant has its own database, opening a
+                            brand new Sequelize connection for every request
+                            would be wasteful, hence the need for a connection
+                            manager.
+                        </p>
+
+                        <p>Its job is to:</p>
+
+                        <ul>
+                            <li>cache tenant-specific Sequelize connections</li>
+                            <li>
+                                reuse them when the same tenant sends another
+                                request
+                            </li>
+                            <li>lazily create a connection only when needed</li>
+                            <li>close idle connections after some time</li>
+                        </ul>
+
+                        <p>
+                            Without a connection manager, database-per-tenant
+                            would quickly become more expensive than it needs to
+                            be.
+                        </p>
+
+                        <p>The pattern looks roughly like this:</p>
+
+                        <pre><code class="language-typescript">const cached = this.connections.get(tenantId);
+
+if (cached) {
+  cached.lastActivity = Date.now();
+  return cached.sequelize;
+}
+
+const tenant = await Tenant.findOne({ where: { tenantId, isActive: true } });
+const sequelize = new Sequelize({ database: tenant.dbName, ... });
+
+await sequelize.authenticate();
+await runWithDb(sequelize, async () =&gt; {
+  sequelize.addModels(ALL_TENANT_MODELS);
+});
+
+this.connections.set(tenantId, {
+  sequelize,
+  lastActivity: Date.now(),
+});</code></pre>
+
+                        <p>
+                            So the connection manager is really the operational
+                            half of this architecture.
+                            <code>AsyncLocalStorage</code> solves routing inside
+                            a request. The connection manager solves how those
+                            tenant connections are created, reused, and cleaned
+                            up.
+                        </p>
+
+                        <h3>3. Bind the right database per request</h3>
+
+                        <p>
+                            When a request comes in, I determine which tenant it
+                            belongs to, by asking the connection manager for the
+                            matching connection, and then wrapping the rest of
+                            the request in:
+                        </p>
+
+                        <pre><code class="language-typescript">runWithDb(db, () =&gt; next());</code></pre>
+
+                        <p>
+                            That means everything downstream runs with that
+                            tenant DB in scope.
+                        </p>
+
+                        <h3>4. Provide an escape hatch</h3>
+
+                        <p>
+                            Sometimes I may need the active DB instance
+                            directly, especially for transactions. For that, the
+                            project exposes:
+                        </p>
+
+                        <pre><code class="language-typescript">getDb();</code></pre>
+
+                        <p>
+                            But only inside a valid tenant context. Outside
+                            that, it throws.
+                        </p>
+
+                        <h2>How Request Routing Works</h2>
+
+                        <p>There are two main request paths in the system.</p>
+
+                        <h3>Unauthenticated routes</h3>
+
+                        <p>
+                            For no auth routes, there is no JWT yet. So the
+                            tenant is resolved from the subdomain.
+                        </p>
+
+                        <p>
+                            In development, that comes from the tenant subdomain
+                            header. In production, it comes from the host.
+                        </p>
+
+                        <p>
+                            Once the tenant is identified, the app loads that
+                            tenant connection and binds it to the request
+                            context before the controller runs.
+                        </p>
+
+                        <p>That flow looks like this:</p>
+
+                        <pre><code class="language-typescript">router.post(
+  "/login",
+  asyncHandler(resolveTenant),
+  asyncHandler(tenantAdminLogin),
+);</code></pre>
+
+                        <p>And inside the middleware:</p>
+
+                        <pre><code class="language-typescript">const db = await connectionManager.getConnection(tenantId);
+return runWithDb(db, () =&gt; next());</code></pre>
+
+                        <h3>Authenticated routes</h3>
+
+                        <p>
+                            For authenticated routes, the JWT already contains
+                            the
+                            <code>tenantId</code>.
+                        </p>
+
+                        <p>So the flow is:</p>
+
+                        <ol>
+                            <li>auth middleware validates the token</li>
+                            <li>
+                                it stores <code>tenantId</code> on the request
+                            </li>
+                            <li>
+                                <code>attachTenantDb</code> fetches the right
+                                tenant connection
+                            </li>
+                            <li>
+                                <code>runWithDb(db, () =&gt; next())</code>
+                                binds that DB for the rest of the request
+                            </li>
+                        </ol>
+
+                        <p>
+                            By the time the controller executes, tenant models
+                            are automatically pointing at the right tenant
+                            database.
+                        </p>
+
+                        <p>That flow looks like this:</p>
+
+                        <pre><code class="language-typescript">router.get("/", adminAuthMiddleware, attachTenantDb, asyncHandler(listRecords));</code></pre>
+
+                        <p>
+                            And <code>attachTenantDb</code> does the actual
+                            tenant binding:
+                        </p>
+
+                        <pre><code class="language-typescript">export async function attachTenantDb(
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) {
+  const tenantId = req.tenantId;
+  const db = await connectionManager.getConnection(tenantId);
+  req.tenantDb = db;
+  return runWithDb(db, () =&gt; next());
+}</code></pre>
+
+                        <p>
+                            After that, normal model queries work the way you
+                            would expect:
+                        </p>
+
+                        <pre><code class="language-typescript">export async function listRecords(req: AuthRequest, res: Response) {
+  const records = await Record.findAll();
+  return ResponseHandler.success(res, records);
+}</code></pre>
+
+                        <p>
+                            No tenant DB is passed into the controller manually.
+                            The active database comes from the async context.a
+                        </p>
+
+                        <p>
+                            There is one more practical implication here: any
+                            code that needs a transaction inside a tenant-scoped
+                            request must obtain it from the active context,
+                            hence one of the many reasons why
+                            <code>getDb()</code> exists.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container footer__inner">
+                <span class="footer__name">Abdulqodir Oladimeji</span>
+                <nav class="footer__links" aria-label="Social links">
+                    <a
+                        href="https://github.com/qoudri4re"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >GitHub</a
+                    >
+                    <a
+                        href="https://www.linkedin.com/in/qoudri4re/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >LinkedIn</a
+                    >
+                </nav>
+                <p class="footer__copy">
+                    © <span id="year">2025</span> Abdulqodir Oladimeji
+                </p>
+            </div>
+        </footer>
+
+        <script src="../js/data.js"></script>
+        <script src="../js/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    </body>
+</html>

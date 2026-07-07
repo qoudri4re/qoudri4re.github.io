@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SchoolFlow — Abdulqodir Oladimeji</title>
+        <meta
+            name="description"
+            content="A multi-tenant school management platform built for Nigerian schools — attendance, results, fees, parent portals, and real-time communication in one system."
+        />
+
+        <!-- ── SEO ──────────────────────────────────────── -->
+        <link
+            rel="canonical"
+            href="https://qoudri4re.github.io/projects/schoolflow.html"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Abdulqodir Oladimeji" />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content="article" />
+        <meta
+            property="og:url"
+            content="https://qoudri4re.github.io/projects/schoolflow.html"
+        />
+        <meta property="og:title" content="SchoolFlow — Abdulqodir Oladimeji" />
+        <meta
+            property="og:description"
+            content="A multi-tenant school management platform built for Nigerian schools — attendance, results, fees, parent portals, and real-time communication in one system."
+        />
+        <meta
+            property="og:image"
+            content="https://qoudri4re.github.io/projects/images/schoolflow-hero.png"
+        />
+        <meta property="og:locale" content="en_NG" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+            name="twitter:title"
+            content="SchoolFlow — Abdulqodir Oladimeji"
+        />
+        <meta
+            name="twitter:description"
+            content="A multi-tenant school management platform built for Nigerian schools — attendance, results, fees, parent portals, and real-time communication in one system."
+        />
+        <meta
+            name="twitter:image"
+            content="https://qoudri4re.github.io/projects/images/schoolflow-hero.png"
+        />
+
+        <!-- JSON-LD -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "CreativeWork",
+                "name": "SchoolFlow",
+                "description": "A multi-tenant school management platform built for Nigerian schools — attendance, results, fees, parent portals, and real-time communication in one system.",
+                "image": "https://qoudri4re.github.io/projects/images/schoolflow-hero.png",
+                "url": "https://qoudri4re.github.io/projects/schoolflow.html",
+                "author": {
+                    "@type": "Person",
+                    "name": "Abdulqodir Oladimeji",
+                    "url": "https://qoudri4re.github.io/"
+                },
+                "keywords": "Angular, Node.js, TypeScript, PostgreSQL, Redis, Socket.io, multi-tenant, school management"
+            }
+        </script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="../css/tokens.css" />
+        <link rel="stylesheet" href="../css/base.css" />
+        <link rel="stylesheet" href="../css/components.css" />
+    </head>
+    <body>
+        <header class="site-nav" role="banner">
+            <div class="container nav__inner">
+                <a href="../" class="nav__logo">Abdulqodir Oladimeji</a>
+                <nav aria-label="Primary navigation">
+                    <ul class="nav__links">
+                        <li>
+                            <a
+                                href="../projects/"
+                                class="nav__link"
+                                aria-current="page"
+                                >Projects</a
+                            >
+                        </li>
+                        <li>
+                            <a href="../blog/" class="nav__link">Writing</a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://github.com/qoudri4re"
+                                class="nav__link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >GitHub</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="mailto:abdulqodrioladimeji@gmail.com"
+                                class="nav__link nav__link--cta"
+                                >Get in touch</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+                <button
+                    class="nav__toggle"
+                    aria-label="Toggle navigation"
+                    aria-expanded="false"
+                >
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </header>
+
+        <main class="project-layout">
+            <div class="container">
+                <a href="../projects/" class="project__back"
+                    >← Back to Projects</a
+                >
+
+                <!-- Header -->
+                <header class="project__header">
+                    <p class="project__label">Case Study · 2025</p>
+                    <h1 class="project__title">SchoolFlow</h1>
+                    <p class="project__tagline">
+                        A school management platform that replaces spreadsheets,
+                        fragmented tools, and paper records with a single system
+                        built for how Nigerian schools actually operate.
+                    </p>
+                </header>
+
+                <!-- Meta grid -->
+                <div class="project__meta-grid">
+                    <div class="project__meta-item">
+                        <p class="project__meta-label">Role</p>
+                        <p class="project__meta-value">Sole Engineer</p>
+                    </div>
+                    <div class="project__meta-item">
+                        <p class="project__meta-label">Timeline</p>
+                        <p class="project__meta-value">Ongoing</p>
+                    </div>
+                    <div class="project__meta-item">
+                        <p class="project__meta-label">Status</p>
+                        <p
+                            class="project__meta-value"
+                            style="color: var(--success)"
+                        >
+                            In Development
+                        </p>
+                    </div>
+                    <div class="project__meta-item">
+                        <p class="project__meta-label">Stack</p>
+                        <div class="tags" style="margin-top: var(--s-2)">
+                            <span class="tag">Angular</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">TypeScript</span>
+                            <span class="tag">PostgreSQL</span>
+                            <span class="tag">Redis</span>
+                            <span class="tag">Socket.io</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero image -->
+                <div class="project__hero-image">
+                    <img
+                        src="images/schoolflow-hero.png"
+                        alt="SchoolFlow — school management dashboard"
+                        width="1200"
+                        height="630"
+                    />
+                </div>
+
+                <!-- ── Section 1: Problem ──────────────────── -->
+                <section class="project-section">
+                    <p class="project-section__label">01 · Problem</p>
+                    <h2 class="project-section__title">The Context</h2>
+                    <div class="project-section__body">
+                        <p>
+                            Nigerian schools spend too much time on paperwork.
+                            Attendance, result computation, fee tracking, report
+                            cards. Most schools still do these by hand. The ones
+                            that use software usually stitch together three or
+                            four different tools that don't talk to each other.
+                            A teacher marks attendance in one spreadsheet,
+                            enters results in another app, and the bursar has a
+                            separate system for fees. Nobody has the full
+                            picture.
+                        </p>
+                        <p>
+                            The existing school management platforms in Nigeria
+                            tend to be expensive, clunky, or built for a
+                            different era. Parent communication is usually a
+                            termly printed report card. If a parent wants to
+                            know whether their child attended school today, or
+                            how much they still owe in fees, the answer involves
+                            phone calls and manual lookups.
+                        </p>
+
+                        <div class="callout">
+                            <p class="callout__label">
+                                The constraint that shaped everything
+                            </p>
+                            <p>
+                                Schools also struggle with onboarding. When a
+                                school switches from paper records to a digital
+                                system, they bring years of historical data. Fee
+                                debts recorded in old ledgers. Student results
+                                from previous terms. The platform needs to
+                                absorb this without forcing the school to
+                                re-enter everything or distort the current fee
+                                structures to match old amounts.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── Section 2: Requirements ────────── -->
+                <section class="project-section">
+                    <p class="project-section__label">02 · Requirements</p>
+                    <h2 class="project-section__title">What It Needed to Do</h2>
+                    <div class="project-section__body">
+                        <h4>Core modules</h4>
+                        <ul>
+                            <li>Student records and class management</li>
+                            <li>Attendance tracking with absenteeism alerts</li>
+                            <li>
+                                Result computation with support for Nigerian
+                                grading scales
+                            </li>
+                            <li>
+                                Report card generation with admin approval
+                                workflow
+                            </li>
+                            <li>
+                                Fee tracking with multiple payment methods
+                                (Paystack, Flutterwave, bank transfer, cash)
+                            </li>
+                            <li>Hostel allocation and transport routing</li>
+                            <li>
+                                Parent portal with real-time access to academic
+                                data and fee status
+                            </li>
+                        </ul>
+
+                        <h4>Business requirements</h4>
+                        <ul>
+                            <li>
+                                Schools pay based on what they use: base tier by
+                                student count, optional paid modules
+                            </li>
+                            <li>
+                                Prorated mid-cycle upgrades, renewals that don't
+                                discard unused days, downgrades at cycle end
+                            </li>
+                            <li>
+                                Calendar progression with strict readiness
+                                checks before advancing terms or academic years
+                            </li>
+                            <li>
+                                Legacy debt onboarding: import historical fee
+                                debts without touching active fee structures
+                            </li>
+                        </ul>
+
+                        <h4>Non-functional requirements</h4>
+                        <ul>
+                            <li>
+                                Database-level tenant isolation (one database
+                                per school)
+                            </li>
+                            <li>
+                                Real-time announcements and parent communication
+                                via Socket.io
+                            </li>
+                            <li>
+                                Subscription enforcement at the middleware level
+                                with cached entitlement checks
+                            </li>
+                            <li>
+                                Background jobs for analytics, fee reminders,
+                                and subscription lifecycle management
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- ── Section 3: Architecture ─── -->
+                <section class="project-section">
+                    <p class="project-section__label">03 · Architecture</p>
+                    <h2 class="project-section__title">How I Approached It</h2>
+                    <div class="project-section__body">
+                        <p>
+                            The core architectural challenge was multi-tenant
+                            database routing. Each school gets its own
+                            PostgreSQL database. Isolating data at the database
+                            level means a school's information never mixes with
+                            another school's, and heavy queries from one school
+                            don't slow down anyone else.
+                            <a
+                                href="../blog/multitenancy-strategy.html"
+                                style="
+                                    color: var(--accent);
+                                    text-decoration: underline;
+                                    text-underline-offset: 3px;
+                                "
+                                >I wrote about the trade-offs behind this choice
+                                in more detail</a
+                            >, comparing shared-schema, schema-per-tenant, and
+                            database-per-tenant, and why the last one fit this
+                            project.
+                        </p>
+                        <p>
+                            Sequelize models store a static reference to their
+                            Sequelize instance. Without intervention, connecting
+                            School B's database would overwrite that reference
+                            and silently redirect all of School A's queries to
+                            School B's database.
+                        </p>
+
+                        <div class="callout">
+                            <p class="callout__label">
+                                Key architectural decision
+                            </p>
+                            <p>
+                                The project uses Node's
+                                <code>AsyncLocalStorage</code> to bind the
+                                correct school database to each incoming
+                                request. Every Sequelize model's
+                                <code>.sequelize</code> property is patched at
+                                startup with a getter that reads from this async
+                                context instead of pointing to a static
+                                connection. A concurrent request for School B
+                                gets its own async chain pointing to School B's
+                                database.
+                            </p>
+                        </div>
+
+                        <h4>Stack decisions</h4>
+                        <ul>
+                            <li>
+                                <strong>Angular for the frontend</strong>:
+                                chosen for its strong typing with TypeScript,
+                                built-in DI, and the structure it imposes on a
+                                large, module-heavy application.
+                            </li>
+                            <li>
+                                <strong
+                                    >Node.js + Express + TypeScript on the
+                                    backend</strong
+                                >: efficient and flexible framework for building
+                                RESTful web services, with typescript to enhance
+                                code quality, maintainability.
+                            </li>
+                            <li>
+                                <strong
+                                    >PostgreSQL with per-tenant
+                                    databases</strong
+                                >: reliable RDBMS providing ACID-compliant
+                                transactions, strong data integrity, and
+                                efficient support for complex relational
+                                queries.
+                            </li>
+                            <li>
+                                <strong>Redis</strong>
+                                : in-memory cache store for frequently accessed
+                                data, token invalidation to improve application
+                                performance.
+                            </li>
+                            <li>
+                                <strong>Socket.io </strong>: Socket.IO was
+                                chosen to provide real-time communication for
+                                features such as announcements, chat, presence
+                                tracking through persistent, bidirectional
+                                client-server connections.
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- ── Section 4: Implementation ────────────── -->
+                <section class="project-section">
+                    <p class="project-section__label">04 · Implementation</p>
+                    <h2 class="project-section__title">Building It</h2>
+                    <div class="project-section__body">
+                        <p>
+                            The multi-tenant database routing was the first real
+                            technical hurdle. The
+                            <code>AsyncLocalStorage</code> getter pattern solved
+                            it cleanly, but it came with constraints. Background
+                            jobs, timeouts, event emitters, and anything that
+                            breaks out of the async chain lose the context and
+                            need an explicit <code>runWithDb</code> wrap.
+                        </p>
+
+                        <h4>The subscription system</h4>
+                        <p>
+                            The subscription system grew more complex than
+                            initially planned. What started as a simple
+                            fixed-plan model became modular pricing with usage
+                            tiers, per-module pricing, dependency validation,
+                            prorated mid-cycle upgrades, and cached entitlement
+                            checks. The business rules are deliberate. A school
+                            on a cheaper plan can upgrade immediately and pays
+                            the prorated difference for the remaining time.
+                            Renewals don't discard unused days. Downgrades and
+                            lateral plan switches are blocked until the current
+                            cycle ends. These rules are correct for the user,
+                            but they add surface area for edge cases. Payment
+                            verification distinguishes initial purchases from
+                            renewals from upgrades. Webhook handlers process the
+                            same distinctions. The subscription lifecycle job
+                            handles reminders and expirations without
+                            double-sending or missing a school.
+                        </p>
+
+                        <h4>Calendar progression</h4>
+                        <p>
+                            Calendar progression took iteration to get right.
+                            The requirement is straightforward on paper: move a
+                            school from one term to the next, or roll over an
+                            academic year. The reality is a chain of
+                            dependencies. Results must be finalized. Report
+                            cards must exist and be admin-approved. Fee
+                            structures must be configured for the destination
+                            term. For year-end rollovers, promotion decisions
+                            must be resolved for every student. The
+                            implementation runs these checks in a preview
+                            endpoint, then re-runs them inside a database
+                            transaction on confirm to prevent acting on a stale
+                            preview. The promotion placement logic (matching
+                            class arm names, checking capacity, handling
+                            graduation for final-year students) surfaced edge
+                            cases that weren't obvious during the initial
+                            design.
+                        </p>
+
+                        <h4>Legacy fee debt</h4>
+                        <p>
+                            The legacy fee debt feature exposed a tension
+                            between the clean ledger model and the messy reality
+                            of school onboarding. The original fee ledger
+                            assumed every debt came from a system-defined fee
+                            structure. Real schools may bring paper records with
+                            amounts that didn't match any current fee
+                            configuration. Extending the assignment model to
+                            support multiple debt sources (legacy detailed,
+                            opening balance, manual adjustment) while keeping
+                            the payment allocation logic unified across all
+                            source types required careful refactoring of the
+                            assignment status rules and reporting queries.
+                        </p>
+
+                        <h4>Fee payment allocation</h4>
+                        <p>
+                            Manual payments, gateway payments, teller-verified
+                            payments, and webhook-processed payments all flow
+                            through different code paths, but they all need to
+                            use the same FIFO oldest-debt-first strategy.
+                            Centralizing that allocation logic in the payment
+                            service and making sure every payment entry point
+                            routes through it was important. Without that
+                            centralization, a gateway webhook might allocate
+                            differently from a manual payment, which would be
+                            hard to catch and harder to explain to a bursar.
+                        </p>
+
+                        <h4>Socket.io in multi-tenant</h4>
+                        <p>
+                            Socket connections join rooms based on the user's
+                            role and the school they belong to. But subscription
+                            state can change mid-connection (a school's
+                            subscription expires, or modules get removed), and
+                            the socket's room membership needs to reflect that.
+                            The connection-level subscription gate runs once at
+                            handshake, but longer-lived connections may outlive
+                            the cached access decision. This is handled by the
+                            short TTL on the subscription context cache, with a
+                            more robust solution (mid-connection
+                            re-authorization or forced disconnect on
+                            subscription expiry) on the roadmap.
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container footer__inner">
+                <span class="footer__name">Abdulqodir Oladimeji</span>
+                <nav class="footer__links" aria-label="Social links">
+                    <a
+                        href="https://github.com/qoudri4re"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >GitHub</a
+                    >
+                    <a
+                        href="https://www.linkedin.com/in/qoudri4re/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >LinkedIn</a
+                    >
+                </nav>
+                <p class="footer__copy">© 2025 Abdulqodir Oladimeji</p>
+            </div>
+        </footer>
+
+        <script src="../js/data.js"></script>
+        <script src="../js/main.js"></script>
+    </body>
+</html>
