@@ -31,14 +31,10 @@
             property="og:description"
             content="A multi-tenant school management platform built for Nigerian schools — attendance, results, fees, parent portals, and real-time communication in one system."
         />
-        <meta
-            property="og:image"
-            content="https://qoudri4re.github.io/projects/images/schoolonline-hero.png"
-        />
         <meta property="og:locale" content="en_NG" />
 
         <!-- Twitter Card -->
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:card" content="summary" />
         <meta
             name="twitter:title"
             content="SchoolOnline — Abdulqodir Oladimeji"
@@ -47,11 +43,6 @@
             name="twitter:description"
             content="A multi-tenant school management platform built for Nigerian schools — attendance, results, fees, parent portals, and real-time communication in one system."
         />
-        <meta
-            name="twitter:image"
-            content="https://qoudri4re.github.io/projects/images/schoolonline-hero.png"
-        />
-
         <!-- JSON-LD -->
         <script type="application/ld+json">
             {
@@ -59,7 +50,6 @@
                 "@type": "CreativeWork",
                 "name": "SchoolOnline",
                 "description": "A multi-tenant school management platform built for Nigerian schools — attendance, results, fees, parent portals, and real-time communication in one system.",
-                "image": "https://qoudri4re.github.io/projects/images/schoolonline-hero.png",
                 "url": "https://schoolonline.com.ng/",
                 "author": {
                     "@type": "Person",
@@ -135,34 +125,36 @@
                 <!-- Header -->
                 <header class="project__header">
                     <p class="project__label">Case Study · 2025</p>
-                    <h1 class="project__title">SchoolOnline</h1>
+                    <h1 class="project__title">
+                        <a
+                            href="https://schoolonline.com.ng/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >SchoolOnline</a
+                        >
+                    </h1>
                     <p class="project__tagline">
                         A school management platform that replaces spreadsheets,
                         fragmented tools, and paper records with a single system
-                        built for how Nigerian schools actually operate.
+                        built for how Nigerian schools operate.
                     </p>
                 </header>
 
-                <!-- Meta grid -->
-                <div class="project__meta-grid">
-                    <div class="project__meta-item">
+                <!-- Meta -->
+                <div class="project__meta-stack">
+                    <div class="project__meta-stack-item">
                         <p class="project__meta-label">Role</p>
                         <p class="project__meta-value">Sole Engineer</p>
                     </div>
-                    <div class="project__meta-item">
+                    <div class="project__meta-stack-item">
                         <p class="project__meta-label">Timeline</p>
                         <p class="project__meta-value">Ongoing</p>
                     </div>
-                    <div class="project__meta-item">
+                    <div class="project__meta-stack-item">
                         <p class="project__meta-label">Status</p>
-                        <p
-                            class="project__meta-value"
-                            style="color: var(--success)"
-                        >
-                            In Development
-                        </p>
+                        <p class="project__meta-value">Pre-launch</p>
                     </div>
-                    <div class="project__meta-item">
+                    <div class="project__meta-stack-item">
                         <p class="project__meta-label">Stack</p>
                         <div class="tags" style="margin-top: var(--s-2)">
                             <span class="tag">Angular</span>
@@ -173,7 +165,7 @@
                             <span class="tag">Socket.io</span>
                         </div>
                     </div>
-                    <div class="project__meta-item">
+                    <div class="project__meta-stack-item">
                         <p class="project__meta-label">Site</p>
                         <p class="project__meta-value">
                             <a
@@ -191,14 +183,25 @@
                     </div>
                 </div>
 
-                <!-- Hero image -->
-                <div class="project__hero-image">
-                    <img
-                        src="images/schoolonline-hero.png"
-                        alt="SchoolOnline — school management dashboard"
-                        width="1200"
-                        height="630"
-                    />
+                <!-- Status -->
+                <div class="callout">
+                    <p class="callout__label">Current status</p>
+                    <p>
+                        Core features are built and working. The platform hasn't
+                        launched commercially yet. I'm looking for a pilot
+                        school to run it for a term, free, in exchange for
+                        feedback.
+                        <a
+                            href="mailto:abdulqodrioladimeji@gmail.com"
+                            style="
+                                color: var(--accent);
+                                text-decoration: underline;
+                                text-underline-offset: 3px;
+                            "
+                            >Get in touch</a
+                        >
+                        if that's you or someone you know.
+                    </p>
                 </div>
 
                 <!-- ── Section 1: Problem ──────────────────── -->
@@ -207,38 +210,32 @@
                     <h2 class="project-section__title">The Context</h2>
                     <div class="project-section__body">
                         <p>
-                            Nigerian schools spend too much time on paperwork.
-                            Attendance, result computation, fee tracking, report
-                            cards. Most schools still do these by hand. The ones
-                            that use software usually stitch together three or
-                            four different tools that don't talk to each other.
-                            A teacher marks attendance in one spreadsheet,
-                            enters results in another app, and the bursar has a
-                            separate system for fees. Nobody has the full
-                            picture.
+                            Nigerian schools run on paper. Attendance, results,
+                            fee tracking, report cards: most schools still do
+                            these by hand. The ones that use software usually
+                            stitch together three or four tools that don't talk
+                            to each other. A teacher marks attendance in one
+                            spreadsheet, enters results in another app, and the
+                            bursar tracks fees in a separate system. Nobody has
+                            the full picture.
                         </p>
                         <p>
-                            The existing school management platforms in Nigeria
-                            tend to be expensive, clunky, or built for a
-                            different era. Parent communication is usually a
-                            termly printed report card. If a parent wants to
-                            know whether their child attended school today, or
-                            how much they still owe in fees, the answer involves
-                            phone calls and manual lookups.
+                            The school management platforms already in Nigeria
+                            are expensive, clunky, or built for a different era.
+                            Parent communication is a termly printed report
+                            card. A parent who wants to know whether their child
+                            attended school today, or what they owe in fees, has
+                            to call the school and wait for a manual lookup.
                         </p>
 
                         <div class="callout">
-                            <p class="callout__label">
-                                The constraint that shaped everything
-                            </p>
+                            <p class="callout__label">Legacy data</p>
                             <p>
-                                Schools also struggle with onboarding. When a
-                                school switches from paper records to a digital
-                                system, they bring years of historical data. Fee
-                                debts recorded in old ledgers. Student results
-                                from previous terms. The platform needs to
+                                Schools switching from paper bring years of
+                                history: fee debts recorded in old ledgers,
+                                results from previous terms. The platform has to
                                 absorb this without forcing the school to
-                                re-enter everything or distort the current fee
+                                re-enter everything or distort current fee
                                 structures to match old amounts.
                             </p>
                         </div>
@@ -266,7 +263,6 @@
                                 Fee tracking with multiple payment methods
                                 (Paystack, Flutterwave, bank transfer, cash)
                             </li>
-                            <li>Hostel allocation and transport routing</li>
                             <li>
                                 Parent portal with real-time access to academic
                                 data and fee status
@@ -370,39 +366,33 @@
                         <ul>
                             <li>
                                 <strong>Angular for the frontend</strong>:
-                                chosen for its strong typing with TypeScript,
-                                built-in DI, and the structure it imposes on a
-                                large, module-heavy application.
+                                strong typing with TypeScript, built-in
+                                dependency injection, and the structure it
+                                imposes on a large, module-heavy application.
                             </li>
                             <li>
                                 <strong
                                     >Node.js + Express + TypeScript on the
                                     backend</strong
-                                >: efficient and flexible framework for building
-                                RESTful web services, with typescript to enhance
-                                code quality, maintainability.
+                                >: RESTful web services with TypeScript for type
+                                safety and maintainability.
                             </li>
                             <li>
                                 <strong
                                     >PostgreSQL with per-tenant
                                     databases</strong
-                                >: reliable RDBMS providing ACID-compliant
-                                transactions, strong data integrity, and
-                                efficient support for complex relational
-                                queries.
+                                >: ACID-compliant transactions and strong data
+                                integrity for financial and academic records.
                             </li>
                             <li>
-                                <strong>Redis</strong>
-                                : in-memory cache store for frequently accessed
-                                data, token invalidation to improve application
-                                performance.
+                                <strong>Redis</strong>: in-memory cache for
+                                frequently accessed data and token invalidation.
                             </li>
                             <li>
-                                <strong>Socket.io </strong>: Socket.IO was
-                                chosen to provide real-time communication for
-                                features such as announcements, chat, presence
-                                tracking through persistent, bidirectional
-                                client-server connections.
+                                <strong>Socket.io</strong>: real-time
+                                communication for announcements, chat, and
+                                presence tracking over persistent, bidirectional
+                                connections.
                             </li>
                         </ul>
                     </div>
@@ -425,39 +415,33 @@
 
                         <h4>The subscription system</h4>
                         <p>
-                            The subscription system grew more complex than
-                            initially planned. What started as a simple
-                            fixed-plan model became modular pricing with usage
+                            The subscription system uses modular pricing: usage
                             tiers, per-module pricing, dependency validation,
                             prorated mid-cycle upgrades, and cached entitlement
-                            checks. The business rules are deliberate. A school
-                            on a cheaper plan can upgrade immediately and pays
-                            the prorated difference for the remaining time.
-                            Renewals don't discard unused days. Downgrades and
-                            lateral plan switches are blocked until the current
-                            cycle ends. These rules are correct for the user,
-                            but they add surface area for edge cases. Payment
-                            verification distinguishes initial purchases from
-                            renewals from upgrades. Webhook handlers process the
-                            same distinctions. The subscription lifecycle job
-                            handles reminders and expirations without
-                            double-sending or missing a school.
+                            checks. A school on a cheaper plan can upgrade
+                            immediately and pays the prorated difference for the
+                            remaining time. Renewals don't discard unused days.
+                            Downgrades and lateral plan switches are blocked
+                            until the current cycle ends. Payment verification
+                            distinguishes initial purchases, renewals, and
+                            upgrades, and the webhook handlers make the same
+                            distinctions. The lifecycle job sends reminders and
+                            handles expirations without double-sending or
+                            missing a school.
                         </p>
 
                         <h4>Calendar progression</h4>
                         <p>
                             Calendar progression took iteration to get right.
-                            The requirement is straightforward on paper: move a
-                            school from one term to the next, or roll over an
-                            academic year. The reality is a chain of
-                            dependencies. Results must be finalized. Report
-                            cards must exist and be admin-approved. Fee
-                            structures must be configured for the destination
-                            term. For year-end rollovers, promotion decisions
-                            must be resolved for every student. The
+                            Moving a school from one term to the next, or
+                            rolling over an academic year, means results must be
+                            finalized, report cards created and admin-approved,
+                            and fee structures configured for the destination
+                            term. Year-end rollovers also need promotion
+                            decisions resolved for every student. The
                             implementation runs these checks in a preview
                             endpoint, then re-runs them inside a database
-                            transaction on confirm to prevent acting on a stale
+                            transaction on confirm, so it never acts on a stale
                             preview. The promotion placement logic (matching
                             class arm names, checking capacity, handling
                             graduation for final-year students) surfaced edge
@@ -468,47 +452,45 @@
                         <h4>Legacy fee debt</h4>
                         <p>
                             The legacy fee debt feature exposed a tension
-                            between the clean ledger model and the messy reality
-                            of school onboarding. The original fee ledger
-                            assumed every debt came from a system-defined fee
-                            structure. Real schools may bring paper records with
-                            amounts that didn't match any current fee
-                            configuration. Extending the assignment model to
-                            support multiple debt sources (legacy detailed,
+                            between a clean ledger model and the reality of
+                            school onboarding. The original fee ledger assumed
+                            every debt came from a system-defined fee structure.
+                            Schools bring paper records with amounts that match
+                            no current fee configuration. The assignment model
+                            now supports multiple debt sources (legacy detailed,
                             opening balance, manual adjustment) while keeping
-                            the payment allocation logic unified across all
-                            source types required careful refactoring of the
-                            assignment status rules and reporting queries.
+                            payment allocation unified across all of them. That
+                            required careful refactoring of the assignment
+                            status rules and the reporting queries.
                         </p>
 
                         <h4>Fee payment allocation</h4>
                         <p>
                             Manual payments, gateway payments, teller-verified
-                            payments, and webhook-processed payments all flow
-                            through different code paths, but they all need to
-                            use the same FIFO oldest-debt-first strategy.
-                            Centralizing that allocation logic in the payment
-                            service and making sure every payment entry point
-                            routes through it was important. Without that
-                            centralization, a gateway webhook might allocate
-                            differently from a manual payment, which would be
+                            payments, and webhook-processed payments flow
+                            through different code paths, but they all use the
+                            same FIFO strategy: oldest debt first. Centralizing
+                            that allocation in the payment service, and routing
+                            every payment entry point through it, was the
+                            important part. Without it, a gateway webhook could
+                            allocate differently from a manual payment, which is
                             hard to catch and harder to explain to a bursar.
                         </p>
 
                         <h4>Socket.io in multi-tenant</h4>
                         <p>
                             Socket connections join rooms based on the user's
-                            role and the school they belong to. But subscription
-                            state can change mid-connection (a school's
-                            subscription expires, or modules get removed), and
-                            the socket's room membership needs to reflect that.
-                            The connection-level subscription gate runs once at
-                            handshake, but longer-lived connections may outlive
-                            the cached access decision. This is handled by the
-                            short TTL on the subscription context cache, with a
-                            more robust solution (mid-connection
-                            re-authorization or forced disconnect on
-                            subscription expiry) on the roadmap.
+                            role and the school they belong to. Subscription
+                            state can change mid-connection: a school's
+                            subscription expires, or modules get removed. The
+                            connection-level subscription gate runs once at
+                            handshake, and the entitlement cache has a short
+                            TTL, so a long-lived connection can outlive the
+                            cached access decision. Mid-connection
+                            re-authorization, or a forced disconnect on
+                            subscription expiry, is not implemented yet. The
+                            risk is a school keeping real-time access briefly
+                            after its subscription lapses.
                         </p>
                     </div>
                 </section>

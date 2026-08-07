@@ -848,15 +848,7 @@ return runWithDb(db, () =&gt; next());</code></pre>
 
                         <p>
                             No tenant DB is passed into the controller manually.
-                            The active database comes from the async context.a
-                        </p>
-
-                        <p>
-                            There is one more practical implication here: any
-                            code that needs a transaction inside a tenant-scoped
-                            request must obtain it from the active context,
-                            hence one of the many reasons why
-                            <code>getDb()</code> exists.
+                            The active database comes from the async context.
                         </p>
                     </div>
                 </article>
