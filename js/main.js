@@ -84,7 +84,6 @@ function updateHeroStats() {
 
 /* ── Tag colorization ────────────────────────────── */
 function applyTagColors() {
-  console.log('here')
   document.querySelectorAll('.tag:not(.tag--mono):not(.tag--accent)').forEach(el => {
     const key = el.textContent.trim().toLowerCase();
     const s = TAG_COLORS?.[key];
@@ -96,18 +95,47 @@ function applyTagColors() {
   });
 }
 
-/* ── Create a colored tag <span> ─────────────────── */
-function makeTag(text, extraClass = '') {
-  const el = document.createElement('span');
-  el.className = 'tag' + (extraClass ? ' ' + extraClass : '');
-  el.textContent = text;
-  const s = TAG_COLORS?.[text.toLowerCase()];
-  if (s) {
-    el.style.background  = s.bg;
-    el.style.color       = s.color;
-    el.style.borderColor = s.border;
+/* ── Render technology items ────────────────────── */
+const TECH_ICON_URLS = {
+  angular: 'https://cdn.simpleicons.org/angular',
+  'next.js': 'https://cdn.simpleicons.org/nextdotjs/4F46E5',
+  java: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
+  vue: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg',
+  nestjs: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg',
+  aws: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg'
+};
+
+const TECH_ICONS = {
+  'javascript': 'javascript', 'typescript': 'typescript', 'html': 'html5', 'css': 'css', 'python': 'python', 'php': 'php', 'java': 'java',
+  'angular': 'angular', 'angular material': 'angular', 'react': 'react', 'next.js': 'nextdotjs', 'svelte': 'svelte', 'vue': 'vuedotjs', 'tailwind': 'tailwindcss',
+  'node.js': 'nodedotjs', 'express': 'express', 'nestjs': 'nestjs', 'laravel': 'laravel', 'spring boot': 'springboot', 'django': 'django',
+  'postgresql': 'postgresql', 'mongodb': 'mongodb', 'redis': 'redis', 'mysql': 'mysql', 'sqlite': 'sqlite',
+  'docker': 'docker', 'kubernetes': 'kubernetes', 'aws': 'amazonwebservices', 'semantic ui': 'semanticuireact'
+};
+
+function makeTechItem(name) {
+  const item = document.createElement('span');
+  item.className = 'tech-item';
+  const key = name.toLowerCase();
+  const slug = TECH_ICONS[key];
+  if (slug) {
+    const icon = document.createElement('img');
+    icon.className = 'tech-item__icon';
+    icon.src = TECH_ICON_URLS[key] || ('https://cdn.simpleicons.org/' + slug);
+    icon.alt = '';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.onerror = () => {
+      icon.replaceWith(Object.assign(document.createElement('span'), { className: 'tech-item__fallback', textContent: name.slice(0, 1) }));
+    };
+    item.appendChild(icon);
+  } else {
+    const fallback = document.createElement('span');
+    fallback.className = 'tech-item__fallback';
+    fallback.textContent = name.slice(0, 1);
+    item.appendChild(fallback);
   }
-  return el;
+  item.append(name);
+  return item;
 }
 
 /* ── Render Skills ───────────────────────────────── */
@@ -116,19 +144,15 @@ function renderSkills() {
   if (!grid || typeof SKILLS === 'undefined') return;
 
   SKILLS.forEach(cat => {
-    const section = document.createElement('div');
+    const section = document.createElement('section');
     section.className = 'skill-category';
-
     const label = document.createElement('p');
     label.className = 'skill-category__label';
     label.textContent = cat.label;
-    section.appendChild(label);
-
     const row = document.createElement('div');
-    row.className = 'tags skill-category__tags';
-    cat.items.forEach(item => row.appendChild(makeTag(item)));
-    section.appendChild(row);
-
+    row.className = 'skill-category__tags';
+    cat.items.forEach(item => row.appendChild(makeTechItem(item)));
+    section.append(label, row);
     grid.appendChild(section);
   });
 }
@@ -176,13 +200,13 @@ function renderExperience() {
     }
 
     header.appendChild(info);
-    header.appendChild(meta);
+    if (meta.childElementCount) header.appendChild(meta);
     item.appendChild(header);
 
     if (job.stack?.length) {
       const row = document.createElement('div');
       row.className = 'tags';
-      job.stack.forEach(t => row.appendChild(makeTag(t)));
+      job.stack.forEach(t => row.appendChild(makeTechItem(t)));
       item.appendChild(row);
     }
 
@@ -211,10 +235,12 @@ function renderEducation() {
     const meta = document.createElement('div');
     meta.className = 'timeline-item__meta';
 
-    const period = document.createElement('span');
-    period.className = 'tag tag--mono';
-    period.textContent = edu.period;
-    meta.appendChild(period);
+    if (edu.period) {
+      const period = document.createElement('span');
+      period.className = 'tag tag--mono';
+      period.textContent = edu.period;
+      meta.appendChild(period);
+    }
 
     if (edu.grade) {
       const grade = document.createElement('span');
@@ -223,8 +249,18 @@ function renderEducation() {
       meta.appendChild(grade);
     }
 
+    if (edu.certificateUrl) {
+      const certificate = document.createElement('a');
+      certificate.className = 'timeline-item__certificate';
+      certificate.href = edu.certificateUrl;
+      certificate.target = '_blank';
+      certificate.rel = 'noopener noreferrer';
+      certificate.textContent = 'View certificate ↗';
+      info.appendChild(certificate);
+    }
+
     header.appendChild(info);
-    header.appendChild(meta);
+    if (meta.childElementCount) header.appendChild(meta);
     item.appendChild(header);
 
     list.appendChild(item);

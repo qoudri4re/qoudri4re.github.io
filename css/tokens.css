@@ -1,26 +1,26 @@
 :root {
   /* ── Backgrounds ──────────────────────────────── */
-  --bg-base:        #0b0b0e;
-  --bg-surface:     #111116;
-  --bg-elevated:    #18181f;
-  --bg-hover:       #1d1d26;
-  --bg-accent-dim:  rgba(0, 212, 255, 0.07);
+  --bg-base:        #f5f4ef;
+  --bg-surface:     #eceae2;
+  --bg-elevated:    #ffffff;
+  --bg-hover:       #e5e2d8;
+  --bg-accent-dim:  rgba(182, 71, 36, 0.08);
 
   /* ── Borders ──────────────────────────────────── */
-  --border:         rgba(255, 255, 255, 0.07);
-  --border-em:      rgba(255, 255, 255, 0.13);
-  --border-accent:  rgba(0, 212, 255, 0.28);
-  --border-focus:   rgba(0, 212, 255, 0.5);
+  --border:         #d7d3c8;
+  --border-em:      #bdb8aa;
+  --border-accent:  rgba(182, 71, 36, 0.42);
+  --border-focus:   rgba(182, 71, 36, 0.75);
 
   /* ── Text ─────────────────────────────────────── */
-  --text-primary:   #ecedf2;
-  --text-secondary: #9494a6;
-  --text-muted:     #52526a;
+  --text-primary:   #1e2520;
+  --text-secondary: #5c635c;
+  --text-muted:     #73786e;
 
   /* ── Accent ───────────────────────────────────── */
-  --accent:         #00d4ff;
-  --accent-hover:   #33dcff;
-  --accent-dim:     rgba(0, 212, 255, 0.08);
+  --accent:         #ad4424;
+  --accent-hover:   #883218;
+  --accent-dim:     rgba(182, 71, 36, 0.09);
 
   /* ── Semantic ─────────────────────────────────── */
   --success:        #22d39e;
@@ -28,9 +28,9 @@
   --danger:         #f87171;
 
   /* ── Fonts ────────────────────────────────────── */
-  --font-display: 'Poppins', system-ui, sans-serif;
-  --font-body:    'Poppins', system-ui, sans-serif;
-  --font-mono:    'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --font-display: 'Manrope', sans-serif;
+  --font-body:    'Manrope', sans-serif;
+  --font-mono:    'DM Mono', monospace;
 
   /* ── Type scale (major-third × 1.25) ─────────── */
   --text-xs:   0.64rem;
@@ -59,9 +59,9 @@
   --s-32: 8rem;
 
   /* ── Radii ────────────────────────────────────── */
-  --radius-sm: 3px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 14px;
 
   /* ── Motion ───────────────────────────────────── */
   --ease:      cubic-bezier(0.16, 1, 0.3, 1);
@@ -69,7 +69,7 @@
   --t-normal:  220ms ease;
 
   /* ── Layout ───────────────────────────────────── */
-  --max-w:      1160px;
+  --max-w:      1200px;
   --content-w:  700px;
   --nav-h:      60px;
 }

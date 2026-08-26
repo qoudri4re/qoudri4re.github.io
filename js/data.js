@@ -90,11 +90,11 @@ const SKILLS = [
   },
   {
     label: 'Frontend',
-    items: ['Angular', 'React', 'Next.js', 'Svelte', 'Tailwind'],
+    items: ['Angular', 'React', 'Next.js', 'Vue', 'Svelte', 'Tailwind'],
   },
   {
     label: 'Backend',
-    items: ['Node.js', 'Express', 'Laravel', 'Spring Boot', 'Django'],
+    items: ['Node.js', 'Express', 'NestJS', 'Laravel', 'Spring Boot', 'Django'],
   },
   {
     label: 'Databases',
@@ -110,6 +110,13 @@ const SKILLS = [
    Add objects to this array to add new entries.
 ─────────────────────────────────────────────────── */
 const EDUCATION = [
+  {
+    degree: 'ALX Software Engineering Certification',
+    school: 'ALX Africa',
+    period: '2022 – 2023',
+    location: 'Remote',
+    certificateUrl: 'https://drive.google.com/file/d/1IMdR0aoEl94X5wZtl0tG1mIQ0YttbF5m/view?usp=drivesdk',
+  },
   {
     degree:   'B.Sc. Computer Science',
     school:   'Usmanu Danfodiyo University',
